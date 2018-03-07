@@ -33,7 +33,8 @@ app.get('/', (req, res) => {
     isDubbed(title)
         .then(result => res.json(result));
 })
+const server_port = process.env.PORT || 8080;
 
-app.listen(8080, () => {
+app.listen(server_port, () => {
     console.log('Listening...');
 });

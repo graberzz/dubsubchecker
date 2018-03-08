@@ -4,23 +4,28 @@ const { JSDOM } = require("jsdom");
 
 const app = express();
 
-const isDubbed = (title) => {
+const isDubbed = (animeName) => {
+    const title = animeName.toLowerCase();
     const searchLink = 'https://www2.9anime.is/search?keyword=' + encodeURIComponent(title);
     return axios(searchLink)
         .then(({ data: html }) => new JSDOM(html))
         .then(dom => {
-            const dubbedAnimeList = [...dom.window.document.querySelectorAll('a[data-jtitle]')]
+            const animeList = [...dom.window.document.querySelectorAll('a[data-jtitle]')]
                               .map(el => ({title: el.dataset.jtitle.toLowerCase(),
-                                           link: el.href})
-                                        )
-                              .filter(({title}) => title.includes('dub'));
-            
-            if (dubbedAnimeList.length === 0) {
-                return {found: false, link: searchLink};
+                                           link: el.href}));
+            const subbedAnimeList = animeList
+                                    .filter(({title}) => !title.includes('dub'));
+            const dubbedAnimeList = animeList
+                                    .filter(({title}) => title.includes('dub'));
+            const dubbedAnime = dubbedAnimeList
+                                .find(anime => anime.title.includes(title));
+            const subbedAnime = subbedAnimeList
+                                .find(anime => anime.title.includes(title));
+            return {
+                link: searchLink,
+                dub:dubbedAnime,
+                sub: subbedAnime,
             }
-            const targetAnime = dubbedAnimeList.find(anime => anime.title.includes(title.toLowerCase()));
-
-            return targetAnime !== undefined ? {...targetAnime, found: true} : false;
         });
 
 };

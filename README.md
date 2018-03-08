@@ -1,7 +1,11 @@
 # About
 Checks if provided anime title has dub/sub versions on www2.9anime.is website.
 # Usage
-HTTP GET request to localhost:8080/?title=[anime title] where [anime title] is desired anime.
+```
+npm i
+npm start
+```
+HTTP GET request to **localhost:8080/?title=[anime title]** where [anime title] is desired anime.
 Returns JSON  in following format:
 ```
 {
@@ -18,7 +22,7 @@ Returns JSON  in following format:
 ```
 ## Examples
 
-Title: **B: The Beginning**
+Title: **B: The Beginning**<br>
 Input:
 ```
 http://localhost:8080/?title=b%3A%20the%20beginning
@@ -38,7 +42,7 @@ Output:
 }
 ```
 ---
-Title: **Golden Time**
+Title: **Golden Time**<br>
 Input:
 ```
 http://localhost:8080/?title=golden%20time
@@ -56,7 +60,7 @@ Output:
 Only sub version was found.
 
 ---
-Title: **GitHub**
+Title: **GitHub**<br>
 Input:
 ```
 http://localhost:8080/?title=github
